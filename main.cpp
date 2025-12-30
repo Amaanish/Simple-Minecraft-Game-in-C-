@@ -10,7 +10,7 @@
 
 using namespace std;
 
-// --- Globals ---
+// Globals
 float lastX = 400, lastY = 300;
 float yaw = -90.0f, pitch = 0.0f;
 bool firstMouse = true;
@@ -154,12 +154,11 @@ int main() {
     }
 
 while (!glfwWindowShouldClose(window)) {
-    // 1. Time
+    
     float currentFrame = (float)glfwGetTime();
     deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;
 
-    // --- 2. WASD INPUT & WALL COLLISION ---
     float sprint = (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) ? 2.5f : 1.0f;
     float speed = 5.0f * deltaTime * sprint;
 
@@ -175,9 +174,8 @@ while (!glfwWindowShouldClose(window)) {
     if (glm::length(wishMove) > 0.0f) {
         wishMove = glm::normalize(wishMove) * speed;
         float pRadius = 0.3f;
-        float checkLevels[] = { -0.7f, 0.0f }; // Waist and Head
+        float checkLevels[] = { -0.7f, 0.0f }; 
 
-        // X Movement
         bool hitX = false;
         float nextX = cameraPos.x + wishMove.x;
         for (float lvl : checkLevels) {
@@ -189,7 +187,6 @@ while (!glfwWindowShouldClose(window)) {
         }
         if (!hitX) cameraPos.x = nextX;
 
-        // Z Movement
         bool hitZ = false;
         float nextZ = cameraPos.z + wishMove.z;
         for (float lvl : checkLevels) {
@@ -202,19 +199,16 @@ while (!glfwWindowShouldClose(window)) {
         if (!hitZ) cameraPos.z = nextZ;
     }
 
-    // --- 3. JUMPING & VERTICAL PHYSICS ---
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && isGrounded) {
-        verticalVelocity = 6.5f; // Initial upward burst
+        verticalVelocity = 6.5f; 
         isGrounded = false;
     }
 
-    // Apply Gravity
     verticalVelocity += gravity * deltaTime;
     cameraPos.y += verticalVelocity * deltaTime;
 
-    // --- 4. GROUND COLLISION (Only if falling) ---
     isGrounded = false; 
-    if (verticalVelocity <= 0.0f) { // Only check for ground if moving DOWN or stationary
+    if (verticalVelocity <= 0.0f) {
         int ix = (int)floor(cameraPos.x + 0.5f) + 12;
         int iz = (int)floor(cameraPos.z + 0.5f) + 12;
         int iyGround = (int)floor(cameraPos.y - 1.55f + 0.5f); 
@@ -228,7 +222,6 @@ while (!glfwWindowShouldClose(window)) {
         }
     }
 
-    // --- 5. BLOCK INTERACTION ---
     if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) selectedBlockType = 1;
     if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) selectedBlockType = 2;
     static bool lRel = true, rRel = true;
@@ -239,7 +232,7 @@ while (!glfwWindowShouldClose(window)) {
         if (rRel) { placeBlock(); rRel = false; }
     } else rRel = true;
 
-    // --- 6. RENDERING (Unchanged) ---
+    //Render
     glClearColor(0.5f, 0.8f, 0.9f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glUseProgram(sProg);
