@@ -2,7 +2,9 @@
 
 A voxel-based 3D sandbox game written in C++ using OpenGL, inspired by Minecraft. Build, break, and explore procedurally generated terrain with real-time physics and collision detection.
 
-I wanted to pull back the curtain on C++ game development, so I challenged myself to replicate the core systems of Minecraft to see how far I could push my programming logic.## Features
+I wanted to pull back the curtain on C++ game development, so I challenged myself to replicate the core systems of Minecraft to see how far I could push my programming logic.
+
+## Features
 
 - **Voxel-Based Rendering**: Fast block-based world rendering with 24×24×10 chunk
 - **Procedural Terrain**: Sine/cosine-based terrain generation for varied landscapes
